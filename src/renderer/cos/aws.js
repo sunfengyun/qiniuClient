@@ -4,10 +4,11 @@ import AWSBucket from "./awsBucket";
 let s3;
 
 function init(param) {
+    var ep = new AWS.Endpoint('s3.test.com');
     AWS.config = new AWS.Config({
-        accessKeyId: param.access_key, secretAccessKey: param.secret_key, region: param.region
+        accessKeyId: param.access_key, secretAccessKey: param.secret_key, region: param.region, sslEnabled: false
     });
-    s3 = new AWS.S3({apiVersion: '2006-03-01'});
+    s3 = new AWS.S3({apiVersion: '2006-03-01', endpoint: ep});
 }
 
 function getBuckets(callback) {
