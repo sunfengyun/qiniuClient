@@ -8,6 +8,7 @@ import * as qing from '../cos/qing';
 import * as ali from '../cos/ali';
 import * as upyun from '../cos/upyun';
 import * as aws from '../cos/aws';
+import * as wocloud from '../cos/wocloud';
 
 import brand from '../cos/brand';
 
@@ -45,6 +46,9 @@ export default class CloudObjectStorage {
             case brand.aws.key:
                 this.cos = aws;
                 break;
+            case brand.wocloud.key:
+                this.cos = wocloud;
+                break;
         }
     }
 
@@ -53,7 +57,7 @@ export default class CloudObjectStorage {
      * @param callback
      */
     async initCOS(data, callback) {
-        if (data && data.access_key && data.secret_key) {
+        if (data && data.access_key && data.secret_key && data.endpoint) {
             this.info = data;
             this.cos.init(data);
             callback && callback(true);
@@ -80,7 +84,7 @@ export default class CloudObjectStorage {
             cos_keys = [];
             for (let item of Object.keys(brand)) {
                 let data = await storagePromise.get(brand[item].key + '_key');
-                if (data && data.access_key && data.secret_key) {
+                if (data && data.access_key && data.secret_key && data.endpoint) {
                     data.uuid = uuid();
                     cos_keys.push(Object.assign(data, brand[item]));
                 }

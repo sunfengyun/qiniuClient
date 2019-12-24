@@ -1,13 +1,14 @@
 const AWS = require('aws-sdk');
-import AWSBucket from "./awsBucket";
+import WOCLOUDBucket from "./wocloudBucket";
 
 let s3;
 
 function init(param) {
+    var ep = new AWS.Endpoint(param.endpoint);
     AWS.config = new AWS.Config({
-        accessKeyId: param.access_key, secretAccessKey: param.secret_key, region: param.region
+        accessKeyId: param.access_key, secretAccessKey: param.secret_key, region: param.region, sslEnabled: false
     });
-    s3 = new AWS.S3({apiVersion: '2006-03-01'});
+    s3 = new AWS.S3({apiVersion: '2006-03-01', endpoint: ep});
 }
 
 function getBuckets(callback) {
@@ -22,7 +23,7 @@ function getBuckets(callback) {
 }
 
 function generateBucket(name) {
-    return new AWSBucket(name, s3);
+    return new WOCLOUDBucket(name, s3);
 }
 
 export {init, getBuckets, generateBucket};

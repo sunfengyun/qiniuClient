@@ -82,6 +82,9 @@
                         <Form-item label="别名" prop="name">
                             <Input v-model="formItem.name" placeholder="别名"/>
                         </Form-item>
+                        <Form-item label="ENDPOINT" prop="endpoint">
+                            <Input v-model="formItem.endpoint" placeholder="请填入你的ENDPOINT"/>
+                        </Form-item>
                         <Form-item label="ACCESS_KEY" prop="access_key">
                             <Input v-model="formItem.access_key" placeholder="请填入你的ACCESS_KEY"/>
                         </Form-item>
