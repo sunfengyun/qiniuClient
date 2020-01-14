@@ -8,7 +8,7 @@
                 </i-button>
                 <Menu ref="menu" width="auto" @on-select="onMenuSelect" :active-name="bucketName">
                     <Menu-group class="buckets-menu" title="存储空间">
-                        <Menu-item v-for="(item,index) of buckets_info" :key="index" :name="item.name" :index="index">
+                        <Menu-item v-for="(item,index) of buckets_info" :key="index" :name="item.name" :index="index"  class="layout-list">
                             <template v-if="menuState">
                                 <Icon :size="item.size ? item.icon : 25"
                                       :type="item.permission === 1 ? 'md-lock' : (bucketName === item.name ? 'md-folder-open' : 'md-folder')"></Icon>
@@ -324,6 +324,9 @@
             height: 100%;
             display: flex;
             flex-direction: row;
+            .layout-list{
+                overflow: auto;
+            }
 
             .layout-menu {
                 background: $menu-bg;
