@@ -22,8 +22,14 @@ function getBuckets(callback) {
     });
 }
 
+function createBucket(name){
+    s3.createBucket({Bucket:name}, function(err, data) {
+    });
+}
+
+
 function generateBucket(name) {
     return new WOCLOUDBucket(name, s3);
 }
 
-export {init, getBuckets, generateBucket};
+export {init, getBuckets, generateBucket, createBucket};

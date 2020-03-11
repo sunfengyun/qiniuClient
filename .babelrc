@@ -13,7 +13,7 @@
                             "Node": "12.4.0"
                         }
                     }
-                ]
+                ], ["es2015", { "modules": false }]
             ]
         },
         "renderer": {
@@ -32,6 +32,13 @@
     },
     "plugins": [
         "transform-runtime",
-        "transform-object-rest-spread"
+        "transform-object-rest-spread",
+        [
+            "component",
+            {
+                "libraryName": "element-ui",
+                "styleLibraryName": "theme-chalk"
+            }
+        ]
     ]
 }

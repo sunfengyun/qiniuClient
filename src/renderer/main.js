@@ -2,6 +2,7 @@ import Vue from 'vue';
 import * as Constants from './service/constants';
 import Router from 'vue-router';
 import axios from 'axios';
+import Dialog from 'element-ui';
 
 
 import "@/service/loadComponent";
@@ -11,6 +12,7 @@ Vue.prototype.$storage = new CloudObjectStorage();
 
 
 Vue.use(Router);
+Vue.use(Dialog);
 
 import PasteImageService from "./service/pasteImageService";
 

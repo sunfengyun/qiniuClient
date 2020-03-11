@@ -82,7 +82,7 @@
                         <Form-item label="别名" prop="name">
                             <Input v-model="formItem.name" placeholder="别名"/>
                         </Form-item>
-                        <Form-item label="ENDPOINT" prop="endpoint">
+                        <Form-item label="ENDPOINT" prop="endpoint" v-if="item.key === brands.wocloud.key">
                             <Input v-model="formItem.endpoint" placeholder="请填入你的ENDPOINT"/>
                         </Form-item>
                         <Form-item label="ACCESS_KEY" prop="access_key">
