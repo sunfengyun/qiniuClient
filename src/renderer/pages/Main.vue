@@ -8,11 +8,25 @@
                 </i-button>
                 <Menu ref="menu" width="auto" @on-select="onMenuSelect" :active-name="bucketName">
                     <Menu-group class="buckets-menu" title="存储空间">
+                        <i-button class="button" type="text" @click="showCreateDialog">
+                            <Tooltip content="创建Bucket" placement="bottom">
+                                <Icon type="md-basket" size="24"/>
+                            </Tooltip>
+                        </i-button>
                         <Menu-item v-for="(item,index) of buckets_info" :key="index" :name="item.name" :index="index"  class="layout-list">
                             <template v-if="menuState">
-                                <Icon :size="item.size ? item.icon : 25"
-                                      :type="item.permission === 1 ? 'md-lock' : (bucketName === item.name ? 'md-folder-open' : 'md-folder')"></Icon>
-                                <span class="layout-text">{{item.name}}</span>
+                                 <Dropdown :modal-append-to-body='false' placement="right" >
+                                      <Icon :size="item.size ? item.icon : 25"
+                                           :type="item.permission === 1 ? 'md-lock' : (bucketName === item.name ? 'md-folder-open' : 'md-folder')"></Icon>
+                                           <span class="layout-text">{{item.name}}</span>
+                                           <DropdownMenu slot="list" style="width:50px">
+                                                <DropdownItem>
+                                                     <div @click="showDeleteDialog(item.name)">
+                                                          <img :src="iconUrl" class="icon-delete">
+                                                     </div>
+                                                </DropdownItem>
+                                           </DropdownMenu>
+                                  </Dropdown>
                             </template>
                             <template v-else>
                                 <span class="layout-icon">{{item.name.substring(0,1)}}</span>
@@ -84,6 +98,9 @@
                 <span>{{drop.message}}</span>
             </div>
         </div>
+        <delete-bucket @sureDeleteBucketHandle="deleteBucketHandle"  ref="deleteBucket"></delete-bucket>
+        <create-bucket @sureCreateBucketHandle="createBucketHandle"  ref="createBucket"></create-bucket>
+        <bucketPage ref="bucketPage"></bucketPage>
     </div>
 </template>
 <script>
@@ -93,15 +110,19 @@
     import StatusView from '@/components/StatusView';
 
     import {Constants, mixins, EventBus, util} from '../service/index';
-
+    import DeleteBucket from "../components/DeleteBucket";
+    import CreateBucket from "../components/CreateBucket";
+    import bucketPage from "./bucketPage";
     //cos切换时强制刷新的标记位
     let isCosFirst = false;
 
     export default {
         mixins: [mixins.base],
-        components: {StatusView},
+        components: {StatusView, DeleteBucket, CreateBucket, bucketPage},
         data() {
             return {
+                iconUrl:require("../assets/img/delete.svg"),
+                deleteName: '',
                 coss: [],//已登录的cos列表
                 cos: {name: ''},
                 cosChoiceModel: false,
@@ -161,8 +182,10 @@
             EventBus.$on(Constants.Event.dropview, (option) => {
                 this.drop = Object.assign(this.drop, option);
             });
-            EventBus.$on(Constants.Event.loading, (option) => {
+            EventBus.$on(Constants.Event.loading, (option) => { 
+                               
                 this.loading = Object.assign(this.loading, option);
+                
                 /*if (this.loading.show) {
                     console.time(option.flag);
                 } else {
@@ -311,6 +334,42 @@
                         break;
                 }
             },
+            showDeleteDialog(data) {
+                this.deleteName = data;
+                this.$refs.deleteBucket.showDialogForm();
+            },
+            deleteBucketHandle(){
+                if(this.$storage.cos){ 
+                    if(this.$refs.bucketPage.totalCount>0){
+                        this.$refs.bucketPage.allSelection(); 
+                        this.$refs.bucketPage.callRemove();   
+                    }          
+                    this.deleteBucket = this.$storage.cos.deleteBucket(this.deleteName, (error, data) => {
+                        this.initCOS();
+                        if (error) {
+                            this.$Message.error('删除bucket失败');
+                        } else {
+                            this.$Message.success('删除bucket成功');
+                        }
+                    });                      
+                                                              
+                }
+            },            
+            showCreateDialog() {
+                this.$refs.createBucket.showDialogForm();
+            },
+            createBucketHandle(data){
+                if(this.$storage.cos){
+                    this.createBucket = this.$storage.cos.createBucket(data, (error, res) => {
+                        this.initCOS();
+                        if (error) {
+                            this.$Message.error('创建bucket失败');
+                        } else {
+                            this.$Message.success('创建bucket成功');
+                        }
+                    });
+                }
+            },
         }
     };
 </script>
@@ -325,7 +384,15 @@
             display: flex;
             flex-direction: row;
             .layout-list{
-                overflow: auto;
+                position: relative;
+                overflow: hidden;
+            }
+
+            .icon-delete{
+                width:22px;
+                height:22px;
+                position: relative;
+                right: 10px;
             }
 
             .layout-menu {

@@ -51,17 +51,19 @@ class Bucket extends baseBucket {
             _param.progressCallback(parseInt(progress.loaded / progress.total) * 100);
         });
     }
-
     async removeFile(items, callback) {
+
         let params = {
             Bucket: this.name,
             Delete: {
                 Objects: []
             }
-        };
+        };     
+           
         for (let file of items) {
             params.Delete.Objects.push({Key: file.key});
-        }
+        }        
+        
         await this.cos.deleteObjects(params).promise();
         callback && callback();
     }

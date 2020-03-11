@@ -1,6 +1,7 @@
 import {mapGetters} from 'vuex';
 import {Constants, EventBus, util} from '../service/index';
 import * as types from '../vuex/mutation-types';
+import store from '../vuex/store'
 
 export default {
     computed: {
@@ -20,6 +21,7 @@ export default {
     },
     data() {
         return {
+            newSelection:null,
             previewImages: [],
             status_total: 0,
             status_count: 0,
@@ -266,15 +268,17 @@ export default {
          * 删除文件
          */
         removes() {
-            this.bucket.removeFile(this.bucket.selection, (ret) => {
+            this.newList =this.$store.state.refresh.bucketList;  
+            this.bucket.removeFile(this.newList, (ret) => {
                 if (ret && ret.error) {
                     this.$Message.error('移除失败：' + ret.error);
                 } else {
                     this.$Message.info('文件移除成功');
                     this.$emit('on-update', null, 'remove');
                 }
-                this.bucket.selection = [];
-            });
+                this.newList = null;
+            });            
+            
         },
     }
 };

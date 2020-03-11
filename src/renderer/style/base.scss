@@ -115,3 +115,7 @@ body {
 .no-drag {
   -webkit-app-region: no-drag;
 }
+.ivu-dropdown .ivu-select-dropdown {
+  width: 0!important;
+  left: 140px!important;
+}

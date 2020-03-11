@@ -201,6 +201,7 @@
 
     import {Constants, util, EventBus, mixins} from '../service/index';
     import dayjs from 'dayjs';
+    import store from '../vuex/store';
 
     export default {
         name: 'bucketPage',
@@ -321,7 +322,7 @@
             },
             //全部选择
             allSelection() {
-                this.$refs['resource-grid'].selection = [];
+                this.$refs['resource-grid'].selection = [];               
                 for (let i = 0; i < this.$refs['resource-grid'].files.length; i++) {
                     this.$refs['resource-grid'].selectFile(i);
                 }

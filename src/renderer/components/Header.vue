@@ -17,12 +17,7 @@
                     </Tooltip>
                 </i-button>
             </div>
-            <div v-if="isWin" style="display: flex;">
-                <i-button class="button" type="text" @click="showDialog">
-                     <Tooltip content="创建Bucket" placement="bottom">
-                         <Icon type="md-basket" size="24"/>
-                     </Tooltip>
-                </i-button>
+            <div v-if="isWin" style="display: flex;">                
                 <i-button class="button" type="text" @click="actionBtn(3)">
                     <Tooltip content="文件上传(支持多选)" placement="bottom">
                         <Icon type="md-document" size="24"/>
@@ -75,18 +70,16 @@
                v-show="bucket.name"/>
 
         <upload-modal :bucket="bucket" ref="uploadModal"></upload-modal>
-        <create-bucket @sureCreateBucketHandle="createBucketHandle"  ref="createBucket"></create-bucket>
     </div>
 </template>
 <script>
     import {mapGetters, mapActions} from 'vuex';
     import * as types from '../vuex/mutation-types';
     import UploadModal from "./UploadModal";
-    import brand from "@/cos/brand";
-    import CreateBucket from "./CreateBucket";
-
-    export default {
-        components: {UploadModal, CreateBucket},
+    import brand from "@/cos/brand"; 
+  
+    export default {        
+        components: {UploadModal},
         name: 'Header',
         data() {
             return {
@@ -208,15 +201,7 @@
                         this.$parent.exportURL();
                         break;
                 }
-            },
-            showDialog() {
-                this.$refs.createBucket.showDialogForm();
-            },
-            createBucketHandle(data){
-                if(this.$storage.cos){
-                    this.createBucket = this.$storage.cos.createBucket(data);
-                }
-            },
+            }, 
             clickMore(name) {
                 this.actionBtn(name);
             }

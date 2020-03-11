@@ -1,0 +1,5 @@
+{
+    "search.exclude": {
+        "\"search.exclude\": {    \"system/\": true,    \"!/system/**/*.ps*\": true  }": true
+    }
+}

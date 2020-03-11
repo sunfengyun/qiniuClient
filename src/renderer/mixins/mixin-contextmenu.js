@@ -1,4 +1,5 @@
 import {Constants, util, EventBus} from "@/service/index";
+import store from '../vuex/store';
 
 export default {
     data() {
@@ -35,8 +36,10 @@ export default {
                 } else {
                     files = files.concat(file);
                 }
-            }
-            this.bucket.selection = files;
+            }     
+            this.bucket.selection = files;     
+
+            this.$store.commit('editList',this.bucket.selection);
         },
         changeFileName() {
             let files = [];
@@ -136,6 +139,6 @@ export default {
                     this.$parent.allSelection();
                     break;
             }
-        },
+        }
     }
 };

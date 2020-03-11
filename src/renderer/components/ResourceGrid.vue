@@ -27,7 +27,7 @@
             <v-contextmenu-item divider></v-contextmenu-item>
             <v-contextmenu-item @click="handleFileMenuClick(6)">下载</v-contextmenu-item>
             <v-contextmenu-item divider></v-contextmenu-item>
-            <v-contextmenu-item @click="handleFileMenuClick(0)"><span style="color: red;width: 300px">删除</span>
+            <v-contextmenu-item @click="handleFileMenuClick(0)"><span style="color: red;width: 300px">删除</span>                 
             </v-contextmenu-item>
         </v-contextmenu>
         <virtual-list :size="123" :remain="remain1" :bench="10" :debounce="500" class="grid2" v-if="type === 1" key="1">
@@ -390,6 +390,7 @@
                 this.bucket.downloads = [file];
                 this.resourceDownload();
             },
+      
         }
     };
 </script>

@@ -1,5 +1,5 @@
 const AWS = require('aws-sdk');
-import WOCLOUDBucket from "./wocloudBucket";
+import WocloudBucket from "./wocloudBucket";
 
 let s3;
 
@@ -22,14 +22,20 @@ function getBuckets(callback) {
     });
 }
 
-function createBucket(name){
-    s3.createBucket({Bucket:name}, function(err, data) {
+function createBucket(name, callback){
+    s3.createBucket({Bucket:name}, function(err, data) {    
+        callback && callback(null, {data: data});
     });
 }
 
-
-function generateBucket(name) {
-    return new WOCLOUDBucket(name, s3);
+function deleteBucket(name, callback){
+    s3.deleteBucket({Bucket:name}, function(err, data) { 
+        callback && callback(null, {datas: data});
+    });
 }
 
-export {init, getBuckets, generateBucket, createBucket};
+function generateBucket(name) {
+    return new WocloudBucket(name, s3);
+}
+
+export {init, getBuckets, generateBucket, createBucket, deleteBucket};

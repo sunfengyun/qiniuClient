@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-dialog title="创建文件夹" v-if="dialogFormVisible" :visible.sync="dialogFormVisible">
+        <el-dialog title="创建Bucket" v-if="dialogFormVisible" :visible.sync="dialogFormVisible">
           <el-form :model="form">
             <el-form-item label="新建Bucket名称:" :label-width="formLabelWidth">
               <el-input v-model="form.name" autocomplete="off"></el-input>
